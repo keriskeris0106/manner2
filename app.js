@@ -1,6 +1,7 @@
 /**
  * Main Application Engine for [맞춤법 어드벤처]
  * Exact mechanism matching https://99dan-two.vercel.app/
+ * Features: Repeat on Wrong Answer until correct option is selected!
  */
 
 // ==========================================
@@ -360,12 +361,12 @@ class AppEngine {
     grid.querySelectorAll('.option-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const isCorrect = e.currentTarget.dataset.correct === 'true';
-        this.handleMinigameAnswer(isCorrect);
+        this.handleMinigameAnswer(isCorrect, e.currentTarget);
       });
     });
   }
 
-  handleMinigameAnswer(isCorrect) {
+  handleMinigameAnswer(isCorrect, targetBtn) {
     if (isCorrect) {
       sound.playCorrect();
       this.gameScore++;
@@ -377,9 +378,14 @@ class AppEngine {
       document.querySelector('#gameGoldText').textContent = `+${this.gameGoldEarned} Gold`;
       this.nextMinigameQuestion();
     } else {
+      // RULE: 훈련하기에서 문제 틀리면 맞힐 때까지 넘어가지 않는다!
       sound.playWrong();
       this.gameCombo = 0;
-      this.nextMinigameQuestion();
+      if (targetBtn) {
+        targetBtn.classList.add('wrong-shake');
+        setTimeout(() => targetBtn.classList.remove('wrong-shake'), 400);
+      }
+      // Stay on question! Do NOT call nextMinigameQuestion()!
     }
   }
 
@@ -466,12 +472,12 @@ class AppEngine {
     grid.querySelectorAll('.option-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const isCorrect = e.currentTarget.dataset.correct === 'true';
-        this.handleBossAnswer(isCorrect);
+        this.handleBossAnswer(isCorrect, e.currentTarget);
       });
     });
   }
 
-  handleBossAnswer(isCorrect) {
+  handleBossAnswer(isCorrect, targetBtn) {
     if (isCorrect) {
       sound.playCorrect();
       this.bossSolvedCount++;
@@ -493,12 +499,11 @@ class AppEngine {
       // RULE: 틀리면 맞을 때까지 넘어가지 않는다!
       sound.playWrong();
       this.bossCombo = 0;
-      const arena = document.querySelector('.boss-question-card');
-      if (arena) {
-        arena.style.animation = 'shake 0.3s ease';
-        setTimeout(() => arena.style.animation = '', 300);
+      if (targetBtn) {
+        targetBtn.classList.add('wrong-shake');
+        setTimeout(() => targetBtn.classList.remove('wrong-shake'), 400);
       }
-      alert('❌ 틀렸습니다! 정답을 고를 때까지 다음 문제로 넘어가지 않습니다.');
+      // Stay on current question!
     }
   }
 
@@ -585,7 +590,7 @@ class AppEngine {
         <p>• 공손한 예절 표현: <span style="color: var(--accent-purple);">양호 (오답률 10%)</span></p>
       </div>
     `;
-    this.openModal('chartChartModal');
+    this.openModal('chartModal');
   }
 
   // ==========================================

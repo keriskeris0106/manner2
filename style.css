@@ -1,6 +1,7 @@
 /* ==========================================================================
    [맞춤법 어드벤처] Theme Ivory Design System
-   Exact mirror of https://99dan-two.vercel.app/
+   100% Identical to https://99dan-two.vercel.app/
+   With High-Readability Fonts & Dynamic Auto-Fit Option Buttons
    ========================================================================== */
 
 :root {
@@ -31,7 +32,7 @@
   --radius-md: 14px;
   --radius-lg: 20px;
   
-  --font-main: 'Noto Sans KR', sans-serif;
+  --font-main: 'Noto Sans KR', 'Pretendard', sans-serif;
   --font-num: 'Outfit', 'Noto Sans KR', sans-serif;
 }
 
@@ -50,6 +51,7 @@ body.theme-ivory {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  word-break: keep-all;
 }
 
 /* App Main Container */
@@ -83,7 +85,7 @@ body.theme-ivory {
 }
 
 .logo-title {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 900;
   color: var(--primary-color);
   display: flex;
@@ -97,7 +99,7 @@ body.theme-ivory {
   align-items: center;
   gap: 8px;
   background: var(--bg-elevated);
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
   border: 1px solid var(--border-color);
 }
@@ -106,7 +108,7 @@ body.theme-ivory {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--primary-color);
   display: flex;
@@ -115,7 +117,7 @@ body.theme-ivory {
 }
 
 .user-name-tag {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 800;
 }
 
@@ -354,7 +356,6 @@ body.theme-ivory {
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 800;
-
 }
 
 .boss-title {
@@ -415,7 +416,7 @@ body.theme-ivory {
 
 /* Play View Styles */
 .play-container {
-  max-width: 700px;
+  max-width: 750px;
   margin: 0 auto;
 }
 
@@ -424,7 +425,7 @@ body.theme-ivory {
   justify-content: space-between;
   align-items: center;
   background: var(--bg-card);
-  padding: 16px;
+  padding: 16px 20px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
   margin-bottom: 12px;
@@ -437,9 +438,9 @@ body.theme-ivory {
 
 .stat-pill {
   background: var(--bg-elevated);
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 8px;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
 }
 
 .gold-pill {
@@ -465,26 +466,27 @@ body.theme-ivory {
   background: var(--bg-card);
   border: 2px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 40px;
+  padding: 32px 24px;
   text-align: center;
   margin-bottom: 20px;
   box-shadow: var(--shadow-md);
 }
 
 .question-prompt {
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   font-weight: 900;
   color: var(--text-main);
-  line-height: 1.4;
+  line-height: 1.45;
+  word-break: keep-all;
 }
 
 .question-subtext {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   margin-top: 8px;
 }
 
-/* 2-Choice Options Grid */
+/* Clean Dynamic Option Buttons (Auto-Fitting Text Length) */
 .answer-options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -495,24 +497,45 @@ body.theme-ivory {
   background: var(--bg-card);
   border: 2px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 20px;
-  font-size: 1.1rem;
+  padding: 18px 22px;
+  font-family: var(--font-main);
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-main);
   cursor: pointer;
   box-shadow: var(--shadow-sm);
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
   line-height: 1.5;
+  word-break: keep-all;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 90px;
+  text-align: center;
+  min-height: 75px;
+  width: 100%;
 }
 
 .option-btn:hover {
   border-color: var(--primary-color);
+  background: #f4f0fd;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+
+.option-btn.wrong-shake {
+  animation: shake 0.35s ease;
+  border-color: var(--accent-red) !important;
+  background: #ffe8e8 !important;
+  color: var(--accent-red) !important;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); }
 }
 
 /* Boss Play Dungeon Theme */
@@ -524,7 +547,7 @@ body.theme-ivory {
 }
 
 .boss-arena-container {
-  max-width: 700px;
+  max-width: 750px;
   margin: 0 auto;
 }
 
@@ -557,17 +580,18 @@ body.theme-ivory {
   background: #1e1330;
   border: 2px solid #5b4cc4;
   border-radius: var(--radius-lg);
-  padding: 30px;
+  padding: 28px 20px;
   text-align: center;
   margin-bottom: 20px;
 }
 
 .boss-q-text {
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   font-weight: 900;
   color: var(--accent-gold);
   margin: 10px 0;
-  line-height: 1.4;
+  line-height: 1.45;
+  word-break: keep-all;
 }
 
 .boss-answers-grid {
@@ -583,6 +607,7 @@ body.theme-ivory {
 }
 .boss-answers-grid .option-btn:hover {
   border-color: var(--accent-gold);
+  background: #322152;
 }
 
 /* Modals */
@@ -705,4 +730,11 @@ body.theme-ivory {
   padding: 12px;
   border-bottom: 1px solid var(--border-color);
   font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .answer-options-grid, .boss-answers-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,11 +1,15 @@
 /**
  * Main Application Engine for [맞춤법 어드벤처]
- * Exact mechanism matching https://99dan-two.vercel.app/
- * Features: Repeat on Wrong Answer until correct option is selected!
+ * 100% Identical Mechanism & UI Match to https://99dan-two.vercel.app/ (GuGudan Adventure)
+ * 
+ * Features:
+ * 1. 2 Training Minigames ONLY (훈련 1: 올바른 높임 표현, 훈련 2: 공손한 예절 표현).
+ * 2. Boss Battle mixes questions ONLY from 훈련 1 and 훈련 2.
+ * 3. Repeat on Wrong Answer in Training & Boss (stay on question until correct answer is selected!).
  */
 
 // ==========================================
-// 1. QUESTION DATA POOLS (훈련 1, 2, 3)
+// 1. QUESTION DATA POOLS (훈련 1, 훈련 2)
 // ==========================================
 
 // 훈련 1: 올바른 높임 표현 스피드 레이스
@@ -104,52 +108,6 @@ const GAME2_QUESTIONS = [
     correct: "혹시 지우개 한 번만 빌려줄 수 있니?",
     wrong: "야, 지우개 빨리 내놔 봐!",
     type: "COURTESY"
-  }
-];
-
-// 훈련 3: 특수어휘 & 겸양어 짝맞추기
-const GAME3_QUESTIONS = [
-  {
-    prompt: "윗사람의 '나이'를 높여 부르는 특수 어휘는?",
-    sub: "알맞은 어휘를 고르세요!",
-    correct: "연세",
-    wrong: "나이",
-    type: "VOCAB"
-  },
-  {
-    prompt: "윗사람의 '집'을 높여 부르는 특수 어휘는?",
-    sub: "알맞은 어휘를 고르세요!",
-    correct: "댁",
-    wrong: "집",
-    type: "VOCAB"
-  },
-  {
-    prompt: "윗사람의 '이름'을 높여 부르는 특수 어휘는?",
-    sub: "알맞은 어휘를 고르세요!",
-    correct: "성함",
-    wrong: "이름",
-    type: "VOCAB"
-  },
-  {
-    prompt: "윗사람 앞에서 자신을 낮추어 부르는 겸양어는?",
-    sub: "알맞은 어휘를 고르세요!",
-    correct: "저 / 제",
-    wrong: "나 / 내",
-    type: "VOCAB"
-  },
-  {
-    prompt: "선생님께 행동을 해 드릴 때 쓰는 겸양 동사는?",
-    sub: "알맞은 어휘를 고르세요!",
-    correct: "드리다",
-    wrong: "주다",
-    type: "VOCAB"
-  },
-  {
-    prompt: "어르신께 질문할 때 쓰는 겸양 동사는?",
-    sub: "알맞은 어휘를 고르세요!",
-    correct: "여쭤보다",
-    wrong: "물어보다",
-    type: "VOCAB"
   }
 ];
 
@@ -308,8 +266,7 @@ class AppEngine {
 
     const titleMap = {
       1: '올바른 높임 표현 스피드 레이스',
-      2: '공손한 예절 표현 탐정',
-      3: '특수어휘 & 겸양어 짝맞추기'
+      2: '공손한 예절 표현 탐정'
     };
     document.querySelector('#playGameTitle').textContent = titleMap[gameType] || '맞춤법 훈련';
     document.querySelector('#gameScoreText').textContent = '0개';
@@ -336,10 +293,7 @@ class AppEngine {
   }
 
   nextMinigameQuestion() {
-    let pool = GAME1_QUESTIONS;
-    if (this.activeGameType === 2) pool = GAME2_QUESTIONS;
-    if (this.activeGameType === 3) pool = GAME3_QUESTIONS;
-
+    const pool = this.activeGameType === 1 ? GAME1_QUESTIONS : GAME2_QUESTIONS;
     const q = pool[Math.floor(Math.random() * pool.length)];
     this.currentQuestion = q;
 
@@ -385,19 +339,17 @@ class AppEngine {
         targetBtn.classList.add('wrong-shake');
         setTimeout(() => targetBtn.classList.remove('wrong-shake'), 400);
       }
-      // Stay on question! Do NOT call nextMinigameQuestion()!
+      // Stay on current question!
     }
   }
 
   finishMinigame() {
     sound.playCorrect();
 
-    // Award gold & log user progress
     if (this.user) {
       this.user.gold = (this.user.gold || 0) + this.gameGoldEarned;
       if (this.activeGameType === 1) this.user.game1Clears = (this.user.game1Clears || 0) + 1;
       if (this.activeGameType === 2) this.user.game2Clears = (this.user.game2Clears || 0) + 1;
-      if (this.activeGameType === 3) this.user.game3Clears = (this.user.game3Clears || 0) + 1;
 
       window.dbStorage.setUser(this.user);
       window.dbStorage.updateLeaderboard(this.user);
@@ -450,8 +402,8 @@ class AppEngine {
   }
 
   nextBossQuestion() {
-    // Combine questions from 훈련 1, 2, 3
-    const allPool = [...GAME1_QUESTIONS, ...GAME2_QUESTIONS, ...GAME3_QUESTIONS];
+    // Mix questions ONLY from 훈련 1 and 훈련 2
+    const allPool = [...GAME1_QUESTIONS, ...GAME2_QUESTIONS];
     const q = allPool[Math.floor(Math.random() * allPool.length)];
     this.bossCurrentQuestion = q;
 
@@ -488,10 +440,11 @@ class AppEngine {
       const floatLayer = document.querySelector('#damageFloatLayer');
       if (floatLayer) {
         const dmg = document.createElement('div');
-        dmg.style.cssText = 'position:absolute; color:#fdcb6e; font-size:1.8rem; font-weight:900; animation: floatUp 0.6s ease forward;';
+        dmg.className = 'floating-damage';
+        dmg.style.left = '50%';
         dmg.textContent = `🎯 HIT! +1`;
         floatLayer.appendChild(dmg);
-        setTimeout(() => dmg.remove(), 600);
+        setTimeout(() => dmg.remove(), 800);
       }
 
       this.nextBossQuestion();
@@ -503,7 +456,6 @@ class AppEngine {
         targetBtn.classList.add('wrong-shake');
         setTimeout(() => targetBtn.classList.remove('wrong-shake'), 400);
       }
-      // Stay on current question!
     }
   }
 
@@ -533,7 +485,7 @@ class AppEngine {
 
     let sorted = [...board];
     if (tab === 'gold') sorted.sort((a, b) => (b.gold || 0) - (a.gold || 0));
-    if (tab === 'minigames') sorted.sort((a, b) => ((b.game1||0)+(b.game2||0)+(b.game3||0)) - ((a.game1||0)+(a.game2||0)+(a.game3||0)));
+    if (tab === 'minigames') sorted.sort((a, b) => ((b.game1||0)+(b.game2||0)) - ((a.game1||0)+(a.game2||0)));
     if (tab === 'boss') sorted.sort((a, b) => (b.bossScore || 0) - (a.bossScore || 0));
     if (tab === 'diligence') sorted.sort((a, b) => (b.gold || 0) - (a.gold || 0));
 
@@ -544,7 +496,7 @@ class AppEngine {
         <td>${item.role || '학생'}</td>
         <td style="font-weight: bold;">
           ${tab === 'gold' ? `${item.gold} Gold` : ''}
-          ${tab === 'minigames' ? `${(item.game1||0)+(item.game2||0)+(item.game3||0)}회 클리어` : ''}
+          ${tab === 'minigames' ? `${(item.game1||0)+(item.game2||0)}회 클리어` : ''}
           ${tab === 'boss' ? `${item.bossScore||0}개 정답` : ''}
           ${tab === 'diligence' ? `${item.gold} P` : ''}
         </td>
@@ -570,7 +522,6 @@ class AppEngine {
           <td>${std.gold || 0} Gold</td>
           <td>${std.game1 || 0}회</td>
           <td>${std.game2 || 0}회</td>
-          <td>${std.game3 || 0}회</td>
           <td style="color: var(--accent-purple); font-weight: bold;">${std.bossScore || 0}개 정답</td>
           <td><button class="btn btn-outline btn-xs" onclick="app.showDiagnosticChart('${std.name}')">📊 취약 분석</button></td>
           <td><button class="btn btn-danger-soft btn-xs">초기화</button></td>
@@ -585,8 +536,7 @@ class AppEngine {
     container.innerHTML = `
       <div style="padding: 20px; font-size: 0.95rem; line-height: 1.8;">
         <p><strong>[${studentName} 학생 맞춤법 취약 진단]</strong></p>
-        <p>• 특수어휘 (진지/계시다): <span style="color: var(--accent-green);">우수 (오답률 5%)</span></p>
-        <p>• 사물 높임 (약봉투가 예쁘셔요): <span style="color: var(--accent-red);">주의 (오답률 35%)</span></p>
+        <p>• 올바른 높임표현 (진지/계시다): <span style="color: var(--accent-green);">우수 (오답률 5%)</span></p>
         <p>• 공손한 예절 표현: <span style="color: var(--accent-purple);">양호 (오답률 10%)</span></p>
       </div>
     `;
@@ -637,7 +587,7 @@ class AppEngine {
       body.innerHTML = `
         <p style="margin-bottom: 12px;">맞춤법 마왕 던전에 입장하시겠습니까?</p>
         <p style="color: var(--accent-gold); font-weight: bold;">필요 골드: 100 Gold (현재 보유: ${this.user?.gold || 0} Gold)</p>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">제한시간 1분 동안 훈련 1, 2, 3 문제가 연속 출제됩니다!</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">제한시간 1분 동안 훈련 1, 2 문제가 연속 출제됩니다!</p>
       `;
       this.openModal('bossConfirmModal');
     });
@@ -691,7 +641,6 @@ class AppEngine {
         gold: 0,
         game1Clears: 0,
         game2Clears: 0,
-        game3Clears: 0,
         bossScore: 0
       };
 
@@ -720,7 +669,6 @@ class AppEngine {
         gold: 1000,
         game1Clears: 0,
         game2Clears: 0,
-        game3Clears: 0,
         bossScore: 0
       };
 
@@ -742,7 +690,6 @@ class AppEngine {
         gold: 50,
         game1Clears: 0,
         game2Clears: 0,
-        game3Clears: 0,
         bossScore: 0
       };
       window.dbStorage.setUser(this.user);

@@ -6,10 +6,16 @@
   <title>맞춤법 어드벤처 - 신나는 높임표현과 예절 훈련</title>
   <meta name="description" content="초등학생과 교사를 위한 올바른 높임표현 & 공손한 예절 훈련 미니게임과 마왕 보스전!">
 
-  <!-- Google Fonts: Clear & Crisp Noto Sans KR & Outfit -->
+  <!-- Google Fonts: Clean & Crisp Noto Sans KR & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -18,7 +24,7 @@
   <!-- App Main Container -->
   <div id="app" class="app-container">
 
-    <!-- Global Header -->
+    <!-- Global Header (100% GuGudan Adventure Identical) -->
     <header class="main-header" id="mainHeader">
       <div class="header-left">
         <h1 class="logo-title" id="logoBtn">
@@ -77,13 +83,13 @@
       <!-- ================= 1. 메인 로비 (HOME LOBBY) ================= -->
       <section id="lobbyView" class="view-section active">
         
-        <!-- (1) 맞춤법 훈련하기 (미니게임 3종) - 상단 배치 -->
+        <!-- (1) 맞춤법 훈련하기 (미니게임 2종) - 상단 배치 -->
         <div class="section-header">
           <h2 class="section-title">🏋️‍♂️ 맞춤법 & 예절 훈련하기</h2>
           <p class="section-subtitle">25초 동안 빠르게 문제를 풀어 골드(+1 Gold)를 모으세요!</p>
         </div>
 
-        <div class="minigames-grid">
+        <div class="minigames-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));">
           <!-- 미니게임 1 -->
           <div class="game-card" id="cardGame1">
             <div class="game-card-icon bg-orange">🎯</div>
@@ -109,22 +115,9 @@
               🎮 훈련 시작하기
             </button>
           </div>
-
-          <!-- 미니게임 3 -->
-          <div class="game-card" id="cardGame3">
-            <div class="game-card-icon bg-green">🧩</div>
-            <div class="game-card-body">
-              <h3 class="game-name">특수어휘 & 겸양어 짝맞추기</h3>
-              <p class="game-formula-example">설명: <code>밥 -> 진지 / 나 -> 저</code></p>
-              <p class="game-desc">윗사람에게 쓰는 전용 높임 어휘와 나를 낮추는 겸양어를 빠르게 고르세요!</p>
-            </div>
-            <button type="button" class="btn btn-primary btn-game-play" data-game="3">
-              🎮 훈련 시작하기
-            </button>
-          </div>
         </div>
 
-        <!-- (2) 보스전 대형 배너 - 하단 배치 -->
+        <!-- (2) 보스전 대형 배너 - 하단 배치 (GuGudan Adventure Exact Match) -->
         <div class="boss-banner-card" id="bossBannerCard">
           <div class="boss-banner-glow"></div>
           <div class="boss-banner-content">
@@ -132,13 +125,13 @@
               <span class="boss-badge">최종 관문</span>
               <h2 class="boss-title">👹 맞춤법 마왕 보스전 (1분 타임어택)</h2>
               <p class="boss-desc">
-                마왕이 맞춤법과 예절 문제를 끝없이 던집니다!<br>
-                <small>⏱️ 제한시간 1분(60초) 동안 몇 문제를 맞히는지 겨룹니다! (틀리면 맞을 때까지 다음 문제로 넘어가지 않습니다!)</small>
+                마왕이 높임표현과 예절 문제를 던집니다! 1분 제한 시간 동안 마왕을 완파하세요.<br>
+                <small>⏱️ 제한시간 1분(60초) 동안 몇 문제를 맞히는지 겨룹니다! (틀릴 경우 정답을 맞힐 때까지 다음 문제로 넘어가지 않습니다!)</small>
               </p>
               <div class="boss-requirements">
                 <span class="req-item">🪙 필요 골드: <strong>100 Gold</strong></span>
-                <span class="req-item">⏱️ 클리어 조건: <strong>1분 동안 최다 정답 달성</strong></span>
-                <span class="req-item">⚔️ 보상: <strong>영웅의 전당 랭킹 등록</strong></span>
+                <span class="req-item">⏱️ 클리어 조건: <strong>1분 타임어택 정답 수 측정</strong></span>
+                <span class="req-item">⚔️ 보상: <strong>영웅의 전당 명예의 전당 등록</strong></span>
               </div>
             </div>
             <div class="boss-action">
@@ -147,7 +140,7 @@
                 <div class="boss-hp-preview">1분 타임어택</div>
               </div>
               <button type="button" class="btn btn-boss-start" id="enterBossBtn">
-                🔥 마왕 던전 입장하기 (100 Gold)
+                🔥 맞춤법 마왕 던전 입장하기 (100 Gold)
               </button>
             </div>
           </div>
@@ -203,11 +196,11 @@
 
           <!-- 문제 제시 영역 -->
           <div class="question-card" id="questionCard">
-            <div class="question-prompt" id="questionPrompt">상황 문제가 제시됩니다.</div>
-            <div class="question-subtext" id="questionSubtext">올바른 높임/예절 표현을 고르세요!</div>
+            <div class="question-prompt" id="questionPrompt" style="font-size: 2rem; line-height: 1.4;">2 × 3 = ?</div>
+            <div class="question-subtext" id="questionSubtext"></div>
           </div>
 
-          <!-- 2지선다 보기 선택 영역 -->
+          <!-- 보기 / 타일 선택 영역 -->
           <div class="answer-options-grid" id="answerOptionsGrid">
             <!-- JS 동적 생성 -->
           </div>
@@ -215,7 +208,7 @@
       </section>
 
 
-      <!-- ================= 3. 보스전 아레나 화면 (60초 타임어택) ================= -->
+      <!-- ================= 3. 보스전 아레나 화면 ================= -->
       <section id="bossPlayView" class="view-section dungeon-theme">
         <div class="boss-arena-container">
           <!-- 보스 상태 헤더 -->
@@ -228,7 +221,7 @@
             </div>
             <div class="boss-timer-box">
               <span>⏱️ 남은 시간:</span>
-              <strong id="bossTimerText" style="color: var(--accent-yellow); font-size: 1.4rem;">60.0초</strong>
+              <strong id="bossTimerText" style="color: #FBBF24;">60.0초</strong>
             </div>
           </div>
 
@@ -246,11 +239,11 @@
           <!-- 보스전 문제 카드 -->
           <div class="boss-question-card">
             <div class="boss-q-number" id="bossQNum">마왕의 맞춤법 공격!</div>
-            <div class="boss-q-text" id="bossQPrompt">상황 대사 문제</div>
-            <div class="boss-q-sub" style="color: #ffb7c5;">⚠️ 틀릴 경우 맞을 때까지 다음 문제로 넘어가지 않습니다!</div>
+            <div class="boss-q-text" id="bossQPrompt" style="font-size: 2rem !important; line-height: 1.4 !important;">상황 대사 문제</div>
+            <div class="boss-q-sub" style="color: #FCA5A5;">⚠️ 틀릴 경우 정답을 맞힐 때까지 다음 문제로 넘어가지 않습니다!</div>
           </div>
 
-          <!-- 보스전 2지선다 보기 -->
+          <!-- 보스전 2지 선다 보기 -->
           <div class="boss-answers-grid" id="bossAnswersGrid">
             <!-- JS 동적 생성 -->
           </div>
@@ -263,14 +256,14 @@
         <div class="hall-container">
           <div class="hall-header">
             <h2>🏆 영웅의 전당</h2>
-            <p>열심히 훈련하고 마왕 보스전에 도전한 학생 및 익명 탐험가들입니다!</p>
+            <p>열심히 훈련하고 보스전에 도전한 학생 및 익명 탐험가들입니다!</p>
           </div>
 
           <!-- 영웅의 전당 4가지 탭 -->
           <div class="hall-tabs">
             <button type="button" class="hall-tab-btn active" data-tab="gold">💰 누적 골드 랭킹</button>
             <button type="button" class="hall-tab-btn" data-tab="minigames">🎮 미니게임 클리어 수</button>
-            <button type="button" class="hall-tab-btn" data-tab="boss">⏱️ 보스전 1분 정답수</button>
+            <button type="button" class="hall-tab-btn" data-tab="boss">⏱️ 보스 클리어 타임</button>
             <button type="button" class="hall-tab-btn" data-tab="diligence">⭐ 주간 성실 랭킹</button>
           </div>
 
@@ -303,42 +296,43 @@
             </div>
           </div>
 
-          <!-- 탭 2: 미니게임 클리어 수 랭킹 (3열 레이아웃) -->
+          <!-- 탭 2: 미니게임 클리어 수 랭킹 (2열 레이아웃) -->
           <div class="rank-triple-wrapper hidden" id="hallTripleWrapper">
             <p class="triple-info-msg">💡 공동 순위의 경우 누적 골드가 높은 순서대로 우선 집계됩니다. (상위 5위까지 표시)</p>
-            <div class="triple-grid">
+            <div class="triple-grid" style="grid-template-columns: repeat(2, 1fr);">
+              
+              <!-- 미니게임 1 랭킹 컬럼 -->
               <div class="mini-rank-column">
                 <h3 class="column-title">🎯 올바른 높임 표현</h3>
                 <div class="table-scroll-box">
                   <table class="mini-rank-table">
-                    <thead><tr><th>순위</th><th>유저</th><th>클리어</th></tr></thead>
+                    <thead>
+                      <tr><th>순위</th><th>유저</th><th>클리어</th></tr>
+                    </thead>
                     <tbody id="miniRankBody1"></tbody>
                   </table>
                 </div>
-                <div class="mini-my-rank" id="myMiniRank1">내 등수: <strong id="myMiniRankVal1">0회</strong></div>
+                <div class="mini-my-rank" id="myMiniRank1">
+                  내 등수: <strong id="myMiniRankVal1">기록 없음 (0회)</strong>
+                </div>
               </div>
 
+              <!-- 미니게임 2 랭킹 컬럼 -->
               <div class="mini-rank-column">
                 <h3 class="column-title">🔍 공손한 예절 표현</h3>
                 <div class="table-scroll-box">
                   <table class="mini-rank-table">
-                    <thead><tr><th>순위</th><th>유저</th><th>클리어</th></tr></thead>
+                    <thead>
+                      <tr><th>순위</th><th>유저</th><th>클리어</th></tr>
+                    </thead>
                     <tbody id="miniRankBody2"></tbody>
                   </table>
                 </div>
-                <div class="mini-my-rank" id="myMiniRank2">내 등수: <strong id="myMiniRankVal2">0회</strong></div>
+                <div class="mini-my-rank" id="myMiniRank2">
+                  내 등수: <strong id="myMiniRankVal2">기록 없음 (0회)</strong>
+                </div>
               </div>
 
-              <div class="mini-rank-column">
-                <h3 class="column-title">🧩 특수어휘 & 겸양어</h3>
-                <div class="table-scroll-box">
-                  <table class="mini-rank-table">
-                    <thead><tr><th>순위</th><th>유저</th><th>클리어</th></tr></thead>
-                    <tbody id="miniRankBody3"></tbody>
-                  </table>
-                </div>
-                <div class="mini-my-rank" id="myMiniRank3">내 등수: <strong id="myMiniRankVal3">0회</strong></div>
-              </div>
             </div>
           </div>
 
@@ -356,6 +350,7 @@
             </div>
           </div>
 
+          <!-- 일반 교사 전용 섹션 -->
           <div class="teacher-panel" id="teacherPanel">
             <div class="teacher-class-card">
               <div class="class-info-left">
@@ -374,7 +369,6 @@
 
             <div class="section-title-row">
               <h3>👨‍🎓 내 학반 전용 학생 학습 이력 (ㄱ-ㄴ-ㄷ 순 정렬)</h3>
-              <p>학생 이름을 클릭하거나 취약 유형 차트를 확인할 수 있습니다.</p>
             </div>
 
             <table class="admin-table">
@@ -384,9 +378,8 @@
                   <th>🪙 골드<br><small>현재 (누적)</small></th>
                   <th id="thGame1">🎯 높임표현<br><small>오늘 (전체)</small></th>
                   <th id="thGame2">🔍 공손예절<br><small>오늘 (전체)</small></th>
-                  <th id="thGame3">🧩 특수어휘<br><small>오늘 (전체)</small></th>
-                  <th>⚔️ 마왕 보스전<br><small>도전 (최다 정답)</small></th>
-                  <th>취약 높임 유형</th>
+                  <th>⚔️ 보스전<br><small>도전 (최단기록)</small></th>
+                  <th>취약 유형</th>
                   <th>학반 관리</th>
                 </tr>
               </thead>
@@ -437,31 +430,31 @@
         </div>
         <div class="form-group">
           <label for="studentInviteInput">교사 초대 코드 (6자리 숫자)</label>
-          <input type="text" id="studentInviteInput" value="363636" placeholder="선생님께 안내받은 6자리 숫자 입력" required>
+          <input type="text" id="studentInviteInput" value="" placeholder="선생님께 안내받은 6자리 숫자 입력" required>
         </div>
         <button type="submit" class="btn btn-primary btn-block">🚀 학생으로 접속하기</button>
       </form>
 
-      <!-- (2) 교사 개설/접속 폼 -->
+      <!-- (2) 100% 무결점 6자리 학급 코드 전용 교사 개설/접속 폼 -->
       <form id="teacherLoginForm" class="login-form-content">
-        <div style="text-align: center; padding: 18px 14px; background-color: var(--bg-elevated); border-radius: var(--radius-md); margin-bottom: 16px; border: 1px solid var(--border-color);">
-          <div style="font-size: 2rem; margin-bottom: 4px;">👩‍🏫</div>
-          <h3 style="font-size: 1.1rem; color: var(--text-main); font-weight: 800;">
+        <div style="text-align: center; padding: 20px 14px; background-color: var(--bg-elevated); border-radius: var(--radius-md); margin-bottom: 18px; border: 1px solid var(--border-color);">
+          <div style="font-size: 2.2rem; margin-bottom: 6px;">👩‍🏫</div>
+          <h3 style="font-size: 1.15rem; color: var(--text-main); font-weight: 800; margin-bottom: 4px;">
             교사 학급 코드 개설 & 관리 접속
           </h3>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
-            원하시는 숫자 6자리를 입력하시면 클래스가 즉시 생성되거나 접속됩니다.
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+            선생님께서 사용할 6자리 숫자를 입력하시면 1초 만에 클래스가 생성되거나 기존 학반 관리 페이지에 즉시 접속됩니다!
           </p>
         </div>
 
         <div class="form-group">
-          <label for="teacherCodeInput">6자리 학급 코드</label>
-          <input type="text" id="teacherCodeInput" placeholder="예: 363636 (숫자 6자리)" maxlength="6" pattern="[0-9]*" inputmode="numeric" required style="font-size: 1.1rem; padding: 12px 14px; text-align: center; font-weight: 800; color: var(--accent-purple);">
+          <label for="teacherCodeInput">6자리 학급 코드 (학급코드는 꼭 기억해주세요)</label>
+          <input type="text" id="teacherCodeInput" placeholder="예: 306001 (숫자 6자리)" maxlength="6" pattern="[0-9]*" inputmode="numeric" required style="font-size: 1.1rem; padding: 12px 14px; text-align: center; letter-spacing: 2px; font-weight: 800; color: var(--accent-purple);">
         </div>
 
         <div class="form-group">
-          <label for="teacherNameInput">선생님 닉네임</label>
-          <input type="text" id="teacherNameInput" placeholder="예: 김선생님" style="font-size: 1rem; padding: 10px 12px;">
+          <label for="teacherNameInput">선생님 닉네임 (관리 페이지에서 변경 가능)</label>
+          <input type="text" id="teacherNameInput" placeholder="예: 박선생님" style="font-size: 1rem; padding: 10px 12px;">
         </div>
 
         <button type="submit" id="teacherCodeLoginBtn" class="btn btn-primary btn-block" style="font-size: 1.1rem; padding: 13px 16px;">
@@ -473,7 +466,7 @@
       <div id="anonLoginForm" class="login-form-content">
         <div class="anon-info-box">
           <p>🎲 <strong>익명 도전자 모드</strong></p>
-          <p>로그인이나 초대코드 없이 바로 맞춤법 모험을 즐길 수 있습니다.</p>
+          <p>로그인이나 초대코드 없이 바로 모험을 즐길 수 있습니다.</p>
           <p class="anon-notice">⚠️ 단, 기록이 누적 저장되지 않습니다.</p>
         </div>
         <button type="button" id="anonLoginStartBtn" class="btn btn-accent btn-block">
@@ -493,11 +486,11 @@
       <form id="classConfigForm">
         <div class="form-group">
           <label for="editTeacherNameInput">선생님 닉네임</label>
-          <input type="text" id="editTeacherNameInput" placeholder="예: 김선생님" required>
+          <input type="text" id="editTeacherNameInput" placeholder="예: 박선생님" required>
         </div>
         <div class="form-group">
           <label for="editClassNameInput">클래스 이름</label>
-          <input type="text" id="editClassNameInput" placeholder="예: 3학년 1반" required>
+          <input type="text" id="editClassNameInput" placeholder="예: 3-6" required>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" id="closeClassConfigModalBtn">취소</button>
@@ -525,7 +518,7 @@
     <div class="modal-card modal-center text-center">
       <div class="result-badge-icon">🎉</div>
       <h2 class="result-title">훈련 성공!</h2>
-      <p class="result-sub">25초 훈련 미션을 마쳤습니다.</p>
+      <p class="result-sub">25초 훈련을 마쳤습니다.</p>
       
       <div class="result-stats-box">
         <div class="res-stat-item">
@@ -563,11 +556,11 @@
     </div>
   </div>
 
-  <!-- 6. 학생 취약 단수/유형 차트 팝업 모달 (교사 전용) -->
+  <!-- 6. 학생 취약 차트 팝업 모달 -->
   <div class="modal-backdrop" id="chartModal">
     <div class="modal-card modal-wide">
       <div class="modal-header">
-        <h2>📊 <span id="chartStudentName">홍길동</span> 학생 맞춤법 취약 분석</h2>
+        <h2>📊 <span id="chartStudentName">홍길동</span> 학생 취약 분석</h2>
       </div>
       <div class="chart-content-area">
         <div class="chart-bars-container" id="chartBarsContainer"></div>
@@ -579,7 +572,6 @@
     </div>
   </div>
 
-  <script src="firebase-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

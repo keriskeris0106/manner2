@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>높임말 어드벤처 - 재미있는 높임표현 훈련과 보스전</title>
-  <meta name="description" content="초등학생과 교사를 위한 신나는 높임표현 & 예절 훈련 미니게임과 마왕 보스전! 영웅의 전당에 이름을 올려보세요.">
+  <title>구구단 어드벤처 - 재미있는 구구단 훈련과 보스전</title>
+  <meta name="description" content="초등학생과 교사를 위한 신나는 구구단 훈련 미니게임과 마왕 보스전! 영웅의 전당에 이름을 올려보세요.">
   
   <!-- Google Fonts: Clear & Crisp Noto Sans KR & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,12 +28,12 @@
     <header class="main-header" id="mainHeader">
       <div class="header-left">
         <h1 class="logo-title" id="logoBtn">
-          <span class="logo-icon" id="headerLogoIcon">⚔️</span> <span id="headerLogoText">높임말 어드벤처</span>
+          <span class="logo-icon" id="headerLogoIcon">⚔️</span> <span id="headerLogoText">구구단 어드벤처</span>
         </h1>
         <div class="user-badge-container" id="userBadgeContainer">
           <button type="button" class="user-title-btn" id="userTitleBtn" title="칭호 및 획득 조건 보기">
             <span id="headerUserTitleEmoji">🐣</span>
-            <span id="headerUserTitleName">높임표현 수련생</span>
+            <span id="headerUserTitleName">구구단 수련생</span>
           </button>
           <span class="user-name-tag" id="headerUserName">익명A1B2</span>
           <span class="user-role-badge" id="headerUserRoleBadge">학생</span>
@@ -43,11 +43,11 @@
       <!-- Mode Switcher Nav Tabs -->
       <div class="header-center">
         <div class="mode-tabs-box" id="modeTabsBox">
-          <button type="button" class="mode-tab-btn active" data-mode="honorific" id="modeBtnHonorific">
-            <span class="mode-tab-icon">⚔️</span> 높임표현
+          <button type="button" class="mode-tab-btn active" data-mode="gugudan" id="modeBtnGugudan">
+            <span class="mode-tab-icon">⚔️</span> 구구단
           </button>
-          <button type="button" class="mode-tab-btn" data-mode="courtesy" id="modeBtnCourtesy">
-            <span class="mode-tab-icon">💬</span> 공손예절
+          <button type="button" class="mode-tab-btn" data-mode="division" id="modeBtnDivision">
+            <span class="mode-tab-icon">➗</span> 나눗셈
           </button>
         </div>
       </div>
@@ -58,7 +58,7 @@
           <span id="userGoldVal">0</span> Gold
         </div>
 
-        <!-- 교사 전용 '클래스 관리하기' 버튼 (교사 로그인 시에만 노출) -->
+        <!-- 교사 전용 '클래스 관리하기' 버튼 -->
         <button type="button" class="btn btn-admin-link hidden" id="openAdminBtn">
           🏫 클래스 관리하기
         </button>
@@ -83,20 +83,20 @@
       <!-- ================= 1. 메인 로비 (HOME LOBBY) ================= -->
       <section id="lobbyView" class="view-section active">
         
-        <!-- (1) 높임표현 & 예절 훈련하기 (미니게임 2종) -->
+        <!-- (1) 구구단 훈련하기 (미니게임 3종) - 상단 배치 -->
         <div class="section-header">
-          <h2 class="section-title">🏋️‍♂️ 높임말 & 예절 훈련하기</h2>
+          <h2 class="section-title">🏋️‍♂️ 구구단 훈련하기</h2>
           <p class="section-subtitle">25초 동안 빠르게 문제를 풀어 골드(+1 Gold)를 모으세요!</p>
         </div>
 
-        <div class="minigames-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));">
+        <div class="minigames-grid">
           <!-- 미니게임 1 -->
           <div class="game-card" id="cardGame1">
             <div class="game-card-icon bg-orange">🎯</div>
             <div class="game-card-body">
-              <h3 class="game-name">올바른 높임 표현 스피드 레이스</h3>
-              <p class="game-formula-example">설명: <code>할머니, 진지 잡수세요 (O vs X)</code></p>
-              <p class="game-desc">제시되는 상황에서 올바른 높임 표현을 순발력 있게 클릭하세요!</p>
+              <h3 class="game-name">구구단 스피드 레이스</h3>
+              <p class="game-formula-example">설명: <code>2 x 3 = ?</code></p>
+              <p class="game-desc">제시되는 곱셈의 올바른 정답을 순발력 있게 클릭하세요!</p>
             </div>
             <button type="button" class="btn btn-primary btn-game-play" data-game="1">
               🎮 훈련 시작하기
@@ -107,11 +107,24 @@
           <div class="game-card" id="cardGame2">
             <div class="game-card-icon bg-purple">🔍</div>
             <div class="game-card-body">
-              <h3 class="game-name">공손한 예절 표현 탐정</h3>
-              <p class="game-formula-example">설명: <code>친구 목소리가 클 때의 배려 표현</code></p>
-              <p class="game-desc">상황에 적절한 공손한 예절 표현을 찾아내는 언어 탐정이 되어보세요!</p>
+              <h3 class="game-name">구구단 숫자 탐정</h3>
+              <p class="game-formula-example">설명: <code>? x 3 = 6</code></p>
+              <p class="game-desc">곱해지는 빈칸에 들어갈 숫자를 찾아내는 숫자 탐정이 되어보세요!</p>
             </div>
             <button type="button" class="btn btn-primary btn-game-play" data-game="2">
+              🎮 훈련 시작하기
+            </button>
+          </div>
+
+          <!-- 미니게임 3 -->
+          <div class="game-card" id="cardGame3">
+            <div class="game-card-icon bg-green">🧩</div>
+            <div class="game-card-body">
+              <h3 class="game-name">구구단 짝 맞추기</h3>
+              <p class="game-formula-example">설명: <code>? x ? = 6</code></p>
+              <p class="game-desc">결과값 곱이 제시되면, 곱해서 해당 숫자가 되는 두 수 조각을 연속 클릭하세요!</p>
+            </div>
+            <button type="button" class="btn btn-primary btn-game-play" data-game="3">
               🎮 훈련 시작하기
             </button>
           </div>
@@ -123,10 +136,10 @@
           <div class="boss-banner-content">
             <div class="boss-info">
               <span class="boss-badge">최종 관문</span>
-              <h2 class="boss-title">👹 높임말 마왕 보스전</h2>
+              <h2 class="boss-title">👹 구구단 마왕 보스전</h2>
               <p class="boss-desc">
-                마왕이 10개의 높임표현과 예절 문제를 던집니다! 10문제를 완파하여 마왕을 봉인하세요.<br>
-                <small>⏱️ 시간 제한 없이 10문제를 완주하는 데 걸리는 최단 기록을 측정합니다! (틀릴 경우 정답을 맞힐 때까지 다음 문제로 넘어가지 않습니다)</small>
+                마왕이 10개의 구구단 문제를 던집니다! 10문제를 완파하여 마왕을 봉인하세요.<br>
+                <small>⏱️ 시간 제한 없이 10문제를 완주하는 데 걸리는 최단 기록을 측정합니다! (틀릴 경우 정답을 맞힐 때까지 경과 시간이 계속 누적됩니다)</small>
               </p>
               <div class="boss-requirements">
                 <span class="req-item">🪙 필요 골드: <strong>100 Gold</strong></span>
@@ -140,7 +153,7 @@
                 <div class="boss-hp-preview">HP ██████████ (10)</div>
               </div>
               <button type="button" class="btn btn-boss-start" id="enterBossBtn">
-                🔥 높임말 마왕 던전 입장하기 (100 Gold)
+                🔥 구구단 마왕 던전 입장하기 (100 Gold)
               </button>
             </div>
           </div>
@@ -163,7 +176,7 @@
           <div class="game-header-bar">
             <div class="game-title-info">
               <span id="playGameIcon">🎮</span>
-              <h2 id="playGameTitle">올바른 높임 표현 스피드 레이스</h2>
+              <h2 id="playGameTitle">구구단 스피드 레이스</h2>
             </div>
             <div class="game-stats-bar">
               <div class="stat-pill">
@@ -196,7 +209,7 @@
 
           <!-- 문제 제시 영역 -->
           <div class="question-card" id="questionCard">
-            <div class="question-prompt" id="questionPrompt">할머니께 식사를 권해드릴 때</div>
+            <div class="question-prompt" id="questionPrompt">2 × 3 = ?</div>
             <div class="question-subtext" id="questionSubtext"></div>
           </div>
 
@@ -214,7 +227,7 @@
           <!-- 보스 상태 헤더 -->
           <div class="boss-battle-header">
             <div class="boss-hp-section">
-              <div class="boss-name-tag">👹 높임말 마왕 (남은 문제: <span id="bossRemainCount">10</span>/10)</div>
+              <div class="boss-name-tag">👹 구구단 마왕 (남은 문제: <span id="bossRemainCount">10</span>/10)</div>
               <div class="hp-bar-outer">
                 <div class="hp-bar-inner" id="bossHpBar" style="width: 100%;"></div>
               </div>
@@ -241,11 +254,11 @@
           <!-- 보스전 문제 카드 -->
           <div class="boss-question-card">
             <div class="boss-q-number" id="bossQNum">문제 1 / 10</div>
-            <div class="boss-q-text" id="bossQPrompt">상황 문장</div>
-            <div class="boss-q-sub">⚠️ 정답을 선택해야 다음 문제로 넘어갑니다!</div>
+            <div class="boss-q-text" id="bossQPrompt">7 × 8 = ?</div>
+            <div class="boss-q-sub">⚠️ 정답을 입력해야 다음 문제로 넘어갑니다!</div>
           </div>
 
-          <!-- 보스전 2지 선다 보기 -->
+          <!-- 보스전 4지 선다 보기 -->
           <div class="boss-answers-grid" id="bossAnswersGrid">
             <!-- JS 동적 생성 -->
           </div>
@@ -299,14 +312,14 @@
             </div>
           </div>
 
-          <!-- 탭 2: 미니게임 클리어 수 랭킹 (2열 Side-by-Side 레이아웃) -->
+          <!-- 탭 2: 미니게임 클리어 수 랭킹 (3열 Side-by-Side 레이아웃) -->
           <div class="rank-triple-wrapper hidden" id="hallTripleWrapper">
             <p class="triple-info-msg">💡 공동 순위의 경우 누적 골드가 높은 순서대로 우선 집계됩니다. (상위 5위까지 표시)</p>
-            <div class="triple-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="triple-grid">
               
               <!-- 미니게임 1 랭킹 컬럼 -->
               <div class="mini-rank-column">
-                <h3 class="column-title">🎯 올바른 높임 표현</h3>
+                <h3 class="column-title">🎯 구구단 스피드 레이스</h3>
                 <div class="table-scroll-box">
                   <table class="mini-rank-table">
                     <thead>
@@ -323,7 +336,7 @@
 
               <!-- 미니게임 2 랭킹 컬럼 -->
               <div class="mini-rank-column">
-                <h3 class="column-title">🔍 공손한 예절 표현</h3>
+                <h3 class="column-title">🔍 구구단 숫자 탐정</h3>
                 <div class="table-scroll-box">
                   <table class="mini-rank-table">
                     <thead>
@@ -335,6 +348,23 @@
                 <!-- 하단 내 등수 -->
                 <div class="mini-my-rank" id="myMiniRank2">
                   내 등수: <strong id="myMiniRankVal2">기록 없음 (0회)</strong>
+                </div>
+              </div>
+
+              <!-- 미니게임 3 랭킹 컬럼 -->
+              <div class="mini-rank-column">
+                <h3 class="column-title">🧩 구구단 짝 맞추기</h3>
+                <div class="table-scroll-box">
+                  <table class="mini-rank-table">
+                    <thead>
+                      <tr><th>순위</th><th>유저</th><th>클리어</th></tr>
+                    </thead>
+                    <tbody id="miniRankBody3"></tbody>
+                  </table>
+                </div>
+                <!-- 하단 내 등수 -->
+                <div class="mini-my-rank" id="myMiniRank3">
+                  내 등수: <strong id="myMiniRankVal3">기록 없음 (0회)</strong>
                 </div>
               </div>
 
@@ -397,7 +427,7 @@
 
             <div class="section-title-row">
               <h3>👨‍🎓 내 학반 전용 학생 학습 이력 (ㄱ-ㄴ-ㄷ 순 정렬)</h3>
-              <p>취약 요소 차트를 클릭하면 학생의 부족한 맞춤법/높임표현 유형을 확인할 수 있습니다.</p>
+              <p>취약 단수 차트를 클릭하면 학생의 부족한 단수를 확인할 수 있습니다.</p>
             </div>
 
             <table class="admin-table">
@@ -405,10 +435,11 @@
                 <tr>
                   <th>학생 이름</th>
                   <th>🪙 골드<br><small>현재 (누적)</small></th>
-                  <th id="thGame1">🎯 높임표현<br><small>오늘 (전체)</small></th>
-                  <th id="thGame2">🔍 공손예절<br><small>오늘 (전체)</small></th>
+                  <th id="thGame1">🎯 스피드<br><small>오늘 (전체)</small></th>
+                  <th id="thGame2">🔍 탐정<br><small>오늘 (전체)</small></th>
+                  <th id="thGame3">🧩 짝맞추기<br><small>오늘 (전체)</small></th>
                   <th>⚔️ 보스전<br><small>도전 (최단기록)</small></th>
-                  <th>취약 분석</th>
+                  <th>취약 단수</th>
                   <th>학반 관리</th>
                 </tr>
               </thead>
@@ -432,7 +463,7 @@
   <div class="modal-backdrop" id="loginModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h2>⚔️ 높임말 어드벤처 입장</h2>
+        <h2>⚔️ 구구단 어드벤처 입장</h2>
         <p>학습 유형 및 역할을 선택해주세요.</p>
       </div>
 
@@ -496,7 +527,7 @@
       <div id="anonLoginForm" class="login-form-content">
         <div class="anon-info-box">
           <p>🎲 <strong>익명 도전자 모드</strong></p>
-          <p>로그인이나 초대코드 없이 바로 높임말 모험을 즐길 수 있습니다.</p>
+          <p>로그인이나 초대코드 없이 바로 구구단 모험을 즐길 수 있습니다.</p>
           <p class="anon-notice">⚠️ 단, 기록이 누적 저장되지 않습니다.</p>
         </div>
         <button type="button" id="anonLoginStartBtn" class="btn btn-accent btn-block">
@@ -558,7 +589,7 @@
     <div class="modal-card modal-center text-center">
       <div class="result-badge-icon">🎉</div>
       <h2 class="result-title">미니게임 성공!</h2>
-      <p class="result-sub">25초 높임말 훈련을 마쳤습니다.</p>
+      <p class="result-sub">25초 구구단 훈련을 마쳤습니다.</p>
       
       <div class="result-stats-box">
         <div class="res-stat-item">
@@ -588,7 +619,7 @@
   <div class="modal-backdrop" id="bossConfirmModal">
     <div class="modal-card modal-center text-center">
       <div class="modal-icon-header" id="bossConfirmIcon">👹</div>
-      <h2 id="bossConfirmTitle">높임말 마왕 던전</h2>
+      <h2 id="bossConfirmTitle">구구단 마왕 던전</h2>
       <div class="boss-confirm-body" id="bossConfirmBody">
         <!-- JS 동적 내용 -->
       </div>
@@ -600,12 +631,12 @@
   </div>
 
 
-  <!-- 6. 학생 취약 차트 팝업 모달 (교사 전용) -->
+  <!-- 6. 학생 취약 단수 차트 팝업 모달 (교사 전용) -->
   <div class="modal-backdrop" id="chartModal">
     <div class="modal-card modal-wide">
       <div class="modal-header">
-        <h2>📊 <span id="chartStudentName">홍길동</span> 학생 취약 분석</h2>
-        <p>높임표현, 공손예절 등 유형별 오답 분석 시각적 차트입니다.</p>
+        <h2>📊 <span id="chartStudentName">홍길동</span> 학생 구구단 취약 분석</h2>
+        <p>2단부터 9단까지의 오답률 및 취약 단수 시각적 차트입니다.</p>
       </div>
 
       <div class="chart-content-area">

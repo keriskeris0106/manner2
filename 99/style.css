@@ -1,6 +1,8 @@
 /* ==========================================================================
-   높임말 어드벤처 (Honorifics & Courtesy Adventure)
-   100% Exact Copy of 99/style.css (GuGudan Adventure Design System)
+   구구단 어드벤처 (Multiplication Adventure) - Design System & Stylesheet
+   Theme: Ivory & Warm Pastel with Deep Navy/Purple Accents
+   Dungeon Theme: Dark Crimson & Volcanic Glow
+   Typography: Clean, Crisp, High Legibility Noto Sans KR
    ========================================================================== */
 
 :root {
@@ -53,7 +55,6 @@ body.theme-ivory {
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
   -webkit-font-smoothing: antialiased;
-  word-break: keep-all;
 }
 
 /* App Container */
@@ -67,7 +68,9 @@ body.theme-ivory {
   flex: 1;
 }
 
-/* Header Styling */
+/* ==========================================================================
+   Header Styling
+   ========================================================================== */
 .main-header {
   background-color: var(--bg-card);
   border-radius: var(--radius-md);
@@ -126,6 +129,15 @@ body.theme-ivory {
   background-color: var(--accent-purple);
   color: #FFF;
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+}
+
+body.mode-division .mode-tab-btn.active {
+  background-color: #0284C7;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+}
+
+body.mode-division .logo-title {
+  color: #0284C7;
 }
 
 .logo-title {
@@ -225,7 +237,9 @@ body.theme-ivory {
   background: #E2E8F0;
 }
 
-/* Buttons System */
+/* ==========================================================================
+   Buttons System
+   ========================================================================== */
 .btn {
   font-family: inherit;
   font-size: 1rem;
@@ -314,7 +328,9 @@ body.theme-ivory {
   100% { box-shadow: 0 8px 30px rgba(220, 38, 38, 0.7); }
 }
 
-/* View Sections Switcher */
+/* ==========================================================================
+   View Sections Switcher
+   ========================================================================== */
 .view-section {
   display: none;
   animation: fadeIn 0.3s ease-in-out forwards;
@@ -329,7 +345,9 @@ body.theme-ivory {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 1. Lobby View & Boss Banner */
+/* ==========================================================================
+   1. Lobby View & Boss Banner
+   ========================================================================== */
 .boss-banner-card {
   position: relative;
   background: linear-gradient(135deg, #1E1B4B, #4C1D95, #831843);
@@ -493,6 +511,14 @@ body.theme-ivory {
 .bg-purple { background-color: #F3E8FF; color: #6B21A8; }
 .bg-green  { background-color: #DCFCE7; color: #15803D; }
 
+.game-time-tag {
+  font-size: 0.85rem;
+  color: var(--accent-orange);
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
 .game-name {
   font-size: 1.4rem;
   font-weight: 800;
@@ -526,6 +552,7 @@ body.theme-ivory {
   width: 100%;
 }
 
+/* Hall of Heroes Extra Large Button - 100% Width matching Boss Banner */
 .btn-hall-lg {
   background: linear-gradient(135deg, #F59E0B, #B45309);
   color: #FFF;
@@ -552,7 +579,22 @@ body.theme-ivory {
   font-size: 1.1rem;
 }
 
-/* 2. Game Play View & Mechanics */
+/* ==========================================================================
+   2. Game Play View & Mechanics
+   ========================================================================== */
+
+.rank-table td:first-child, .mini-rank-table td:first-child {
+  white-space: nowrap !important;
+}
+
+.rank-table td strong, .mini-rank-table td strong {
+  white-space: nowrap !important;
+  display: inline-block;
+}
+
+/* ==========================================================================
+   2. Game Play View & Mechanics
+   ========================================================================== */
 .play-container {
   background-color: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -602,6 +644,7 @@ body.theme-ivory {
   font-weight: 800;
 }
 
+/* Progress Bar Timer */
 .timer-progress-outer {
   width: 100%;
   height: 14px;
@@ -646,21 +689,20 @@ body.theme-ivory {
   background: linear-gradient(135deg, #FAF5FF, #F3E8FF);
   border: 2px solid #D8B4FE;
   border-radius: var(--radius-md);
-  padding: 30px 20px;
+  padding: 36px 24px;
   text-align: center;
   margin: 16px 0 28px 0;
 }
 
 .question-prompt {
-  font-size: 2rem;
+  font-size: 3.2rem;
   font-weight: 900;
   color: var(--accent-purple);
-  line-height: 1.4;
-  word-break: keep-all;
+  letter-spacing: 2px;
 }
 
 .question-subtext {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
   margin-top: 8px;
 }
@@ -675,20 +717,13 @@ body.theme-ivory {
   background-color: var(--bg-elevated);
   border: 2px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 18px 20px;
-  font-size: 1.15rem;
+  padding: 20px;
+  font-size: 1.8rem;
   font-weight: 800;
   color: var(--text-main);
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
-  line-height: 1.5;
-  word-break: keep-all;
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .option-btn:hover {
@@ -697,23 +732,14 @@ body.theme-ivory {
   transform: translateY(-2px);
 }
 
-.option-btn.wrong-shake {
-  animation: shake 0.35s ease;
-  background-color: #FEE2E2 !important;
-  border-color: #EF4444 !important;
-  color: #DC2626 !important;
+.option-btn.selected {
+  background-color: #DDD6FE;
+  border-color: #7C3AED;
 }
 
-@keyframes shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(6px); }
-  100% { transform: translateX(0); }
-}
-
-/* 3. Boss Dungeon Theme Arena */
+/* ==========================================================================
+   3. Boss Dungeon Theme Arena
+   ========================================================================== */
 body.in-dungeon {
   background-color: #110A15;
   color: #F8FAFC;
@@ -770,6 +796,13 @@ body.in-dungeon {
   transition: width 0.3s ease;
 }
 
+.hp-num-text {
+  font-size: 0.85rem;
+  color: #FECACA;
+  margin-top: 2px;
+  text-align: right;
+}
+
 .boss-timer-box {
   background: rgba(0, 0, 0, 0.4);
   padding: 6px 14px;
@@ -791,8 +824,10 @@ body.in-dungeon {
 .boss-avatar-large {
   font-size: 3.8rem;
   filter: drop-shadow(0 6px 14px rgba(239, 68, 68, 0.5));
+  transition: transform 0.1s ease;
 }
 
+/* Floating Damage Layer */
 .damage-float-layer {
   position: absolute;
   top: 0;
@@ -829,7 +864,7 @@ body.in-dungeon {
   background: rgba(127, 29, 29, 0.3);
   border: 2px solid #991B1B;
   border-radius: var(--radius-md);
-  padding: 20px 16px;
+  padding: 12px 16px;
   text-align: center;
   margin-bottom: 14px;
 }
@@ -842,13 +877,31 @@ body.in-dungeon {
 }
 
 .boss-q-text, .boss-q-prompt {
-  font-size: 2rem !important;
+  font-size: 3.8rem !important;
   font-weight: 900 !important;
   color: #FFFFFF !important;
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.95);
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.95), 0 0 24px rgba(239, 68, 68, 0.7);
+  letter-spacing: 3px;
   margin: 4px 0;
-  line-height: 1.4;
-  word-break: keep-all;
+  line-height: 1.15;
+}
+
+@media (max-width: 600px) {
+  .boss-q-text, .boss-q-prompt {
+    font-size: 2.8rem !important;
+  }
+  .boss-avatar-large {
+    font-size: 3rem;
+  }
+  .boss-visual-zone {
+    height: 75px;
+  }
+}
+
+.boss-q-sub {
+  color: #FECACA;
+  font-size: 0.9rem;
+  margin-top: 4px;
 }
 
 .boss-answers-grid {
@@ -857,17 +910,37 @@ body.in-dungeon {
   gap: 16px;
 }
 
-.boss-answers-grid .option-btn {
+.boss-option-btn {
   background: rgba(30, 27, 75, 0.8);
   border: 2px solid #4C1D95;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  font-size: 2rem;
+  font-weight: 900;
   color: #FFF;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
 }
-.boss-answers-grid .option-btn:hover {
+
+.boss-option-btn:hover {
   background: #4C1D95;
   border-color: #8B5CF6;
 }
 
-/* 4. Hall of Heroes (영웅의 전당 - Exact Match) */
+.boss-option-btn.wrong-choice {
+  background: rgba(185, 28, 28, 0.6) !important;
+  border-color: #EF4444 !important;
+  color: #FCA5A5 !important;
+  opacity: 0.65;
+  cursor: not-allowed !important;
+  transform: scale(0.96);
+  box-shadow: none !important;
+}
+
+/* ==========================================================================
+   4. Hall of Heroes (영웅의 전당)
+   ========================================================================== */
 .hall-container {
   background-color: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -933,10 +1006,115 @@ body.in-dungeon {
   font-size: 1rem;
 }
 
+.rank-table tr:hover, .mini-rank-table tr:hover {
+  background-color: var(--bg-primary);
+}
+
+.rank-top1 { color: #D97706; font-weight: 900; }
+.rank-top2 { color: #475569; font-weight: 800; }
+.rank-top3 { color: #B45309; font-weight: 800; }
+
+@keyframes goldSparkle {
+  0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px #F59E0B); }
+  50% { transform: scale(1.18) rotate(8deg); filter: drop-shadow(0 0 12px #FBBF24); }
+  100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px #F59E0B); }
+}
+
+@keyframes silverShine {
+  0% { transform: scale(1); filter: drop-shadow(0 0 3px #94A3B8); }
+  50% { transform: scale(1.12) translateY(-1px); filter: drop-shadow(0 0 8px #CBD5E1); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 3px #94A3B8); }
+}
+
+@keyframes bronzeGlow {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px #D97706); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 6px #F59E0B); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 2px #D97706); }
+}
+
+.top-rank-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+.top1-badge {
+  animation: goldSparkle 1.3s infinite ease-in-out;
+}
+
+.top2-badge {
+  animation: silverShine 1.5s infinite ease-in-out;
+}
+
+.top3-badge {
+  animation: bronzeGlow 1.7s infinite ease-in-out;
+}
+
+.rank-table tr.my-row-highlight, .mini-rank-table tr.my-row-highlight {
+  background-color: rgba(124, 58, 237, 0.12) !important;
+  border-left: 4px solid #7C3AED;
+}
+
+.rank-table tr.my-row-highlight td, .mini-rank-table tr.my-row-highlight td {
+  font-weight: 900 !important;
+  color: #4C1D95 !important;
+  text-shadow: 0 0 6px rgba(124, 58, 237, 0.3);
+}
+
+.code-warning-red {
+  color: #DC2626;
+  font-size: 0.88rem;
+  font-weight: 800;
+  margin-top: 6px;
+  text-align: center;
+  background-color: #FEF2F2;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid #FCA5A5;
+}
+
+
+.my-rank-banner {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  border: 2px solid #F59E0B;
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.my-rank-label {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #92400E;
+}
+
+.my-rank-details {
+  font-size: 1.1rem;
+  color: #78350F;
+  font-weight: 800;
+}
+
+/* Triple Grid Layout for Mini Games */
+.triple-info-msg {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
 .triple-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .triple-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .mini-rank-column {
@@ -957,12 +1135,54 @@ body.in-dungeon {
   text-align: center;
 }
 
-/* 5. Admin Dashboard */
+.table-scroll-box {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.mini-my-rank {
+  background-color: var(--bg-card);
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   5. Admin Dashboard & Student Chart
+   ========================================================================== */
 .admin-container {
   background-color: var(--bg-card);
   border-radius: var(--radius-lg);
   padding: 32px;
   box-shadow: var(--shadow-md);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-role-indicator {
+  background-color: var(--bg-elevated);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+}
+
+.super-admin-panel {
+  background-color: #EFF6FF;
+  border: 2px solid #BFDBFE;
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 32px;
 }
 
 .teacher-class-card {
@@ -974,6 +1194,15 @@ body.in-dungeon {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.invite-code-display {
+  color: #0F766E;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 2px;
 }
 
 .admin-table {
@@ -987,22 +1216,105 @@ body.in-dungeon {
   border-bottom: 1px solid var(--border-soft);
   text-align: center !important;
   white-space: nowrap !important;
+  font-size: 0.9rem !important;
 }
 
-/* Modals */
+.admin-table th {
+  background-color: var(--bg-elevated);
+  font-weight: 800;
+}
+
+.admin-table th small {
+  display: block;
+  font-size: 0.76rem !important;
+  font-weight: 400;
+  margin-top: 2px;
+  color: var(--text-muted);
+}
+
+.admin-table .btn-sm {
+  padding: 4px 10px !important;
+  font-size: 0.82rem !important;
+  white-space: nowrap !important;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+
+/* Visual Bar Chart in Modal */
+.chart-bars-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 240px;
+  background-color: var(--bg-primary);
+  padding: 20px 10px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+
+.chart-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 10%;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar-fill {
+  width: 100%;
+  background: linear-gradient(180deg, #EF4444, #F59E0B);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.4s ease;
+  min-height: 4px;
+}
+
+.bar-label {
+  font-size: 0.9rem;
+  margin-top: 8px;
+  font-weight: 800;
+}
+
+.bar-val {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.chart-summary-box {
+  background-color: var(--bg-elevated);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Modals & Overlays
+   ========================================================================== */
 .modal-backdrop {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(4px);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 16px;
 }
+
 .modal-backdrop.active {
-  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .modal-card {
@@ -1010,10 +1322,37 @@ body.in-dungeon {
   border-radius: var(--radius-lg);
   padding: 32px;
   max-width: 480px;
-  width: 90%;
+  width: 100%;
   box-shadow: var(--shadow-lg);
+  transform: translateY(12px);
+  transition: transform 0.25s ease;
 }
 
+.modal-card.modal-wide {
+  max-width: 680px;
+}
+
+.modal-backdrop.active .modal-card {
+  transform: translateY(0);
+}
+
+.modal-header {
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--accent-purple);
+}
+
+.modal-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+/* Clean, Non-Truncated Login Role Tabs */
 .login-role-tabs {
   display: flex;
   gap: 8px;
@@ -1027,19 +1366,42 @@ body.in-dungeon {
   flex: 1;
   background: none;
   border: none;
+  font-family: inherit;
   padding: 10px 6px;
   border-radius: 8px;
   cursor: pointer;
   color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
+
 .role-tab-btn.active {
   background-color: var(--bg-card);
+  color: var(--accent-purple);
+  box-shadow: var(--shadow-sm);
+}
+
+.tab-title {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.tab-sub {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.role-tab-btn.active .tab-sub {
   color: var(--accent-purple);
 }
 
 .login-form-content {
   display: none;
 }
+
 .login-form-content.active {
   display: block;
 }
@@ -1055,16 +1417,110 @@ body.in-dungeon {
   margin-bottom: 6px;
 }
 
-.form-group input {
+.form-group input, .form-group select {
   width: 100%;
   padding: 10px 14px;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
+  font-family: inherit;
   font-size: 1rem;
 }
 
-@media (max-width: 600px) {
-  .answer-options-grid, .boss-answers-grid {
-    grid-template-columns: 1fr;
-  }
+.select-inline-group {
+  display: flex;
+  gap: 10px;
 }
+
+.anon-info-box {
+  background-color: var(--bg-elevated);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.anon-notice {
+  font-size: 0.85rem;
+  color: var(--accent-orange);
+  margin-top: 8px;
+}
+
+/* Titles List Popup */
+.title-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 360px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.title-item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-elevated);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.title-item-card.unlocked {
+  background-color: #FEF3C7;
+  border-color: #F59E0B;
+}
+
+.title-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.title-item-req {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Result Modal */
+.result-badge-icon {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+}
+
+.result-stats-box {
+  background-color: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.res-stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+}
+
+.highlight-gold {
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.modal-actions-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-actions-row .btn {
+  flex: 1;
+}
+
+/* Utility Helpers */
+.hidden { display: none !important; }
+.text-center { text-align: center; }

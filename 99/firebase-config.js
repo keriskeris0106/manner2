@@ -1,6 +1,6 @@
 /* ==========================================================================
-   높임말 어드벤처 (Honorifics & Courtesy Adventure) - Firebase Engine
-   100% Exact Copy of 99/firebase-config.js
+   구구단 어드벤처 (Multiplication Adventure) - Firebase Engine v13
+   Seamless Fallback Google OAuth Engine (Popup -> Redirect Mode)
    ========================================================================== */
 
 const firebaseConfig = {
@@ -30,6 +30,7 @@ window.GugudanFirebase = {
   isConfigured: isFirebaseInitialized,
   config: firebaseConfig,
 
+  // Seamless Google Auth Popup & Redirect Fallback Support
   async signInWithGoogle() {
     if (typeof firebase === 'undefined' || !firebase.auth) {
       console.warn("Firebase Auth SDK not loaded");
@@ -46,6 +47,7 @@ window.GugudanFirebase = {
       return result.user;
     } catch (err) {
       console.warn("Popup sign in failed, redirecting seamlessly...", err);
+      // Fallback seamlessly to redirect mode if popup is blocked or closed
       try {
         await firebase.auth().signInWithRedirect(provider);
         return null;
@@ -56,6 +58,7 @@ window.GugudanFirebase = {
     }
   },
 
+  // Anonymous Login
   async signInAnonymously() {
     if (typeof firebase === 'undefined' || !firebase.auth) {
       return null;
@@ -69,6 +72,7 @@ window.GugudanFirebase = {
     }
   },
 
+  // AuthStateChanged Global Listener Setup
   onAuthStateChanged(callback) {
     if (typeof firebase !== 'undefined' && firebase.auth) {
       return firebase.auth().onAuthStateChanged(callback);

@@ -1,7 +1,7 @@
 /**
  * LoginView Component
- * Handles Teacher Signup/Login with Real-time 6-digit Code check
- * and Student 3-Part Verification Login.
+ * Explicit separate actions for Teacher Login vs Class Creation.
+ * Any teacher can enter ANY 6-digit code to create their custom class!
  */
 
 import { storage } from '../firebase.js';
@@ -9,16 +9,17 @@ import { sound } from '../audio.js';
 
 export function renderLoginView(container, onLoginSuccess) {
   let activeTab = 'student'; // 'student' or 'teacher'
+  let teacherMode = 'login'; // 'login' or 'create' for teacher tab
 
   const render = () => {
     container.innerHTML = `
       <div class="login-container">
         <div class="text-center mb-2">
-          <h2 style="color: var(--accent-yellow); font-size: 1.8rem; text-shadow: 2px 2px 0 #000;">
+          <h2 class="cosmic-main-title" style="font-size: 1.8rem;">
             🌌 존댓말 차원 탐험대
           </h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
-            초등 3학년 올바른 높임표현 레트로 게이미피케이션
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">
+            올바른 높임표현으로 소통하는 멋진 탐험가가 되자!
           </p>
         </div>
 
@@ -28,12 +29,12 @@ export function renderLoginView(container, onLoginSuccess) {
               🎒 학생 접속
             </button>
             <button id="tab-teacher" class="tab-btn ${activeTab === 'teacher' ? 'active' : ''}">
-              👩‍🏫 교사 접속
+              👩‍🏫 교사 전용
             </button>
           </div>
 
           <div id="login-form-body">
-            ${activeTab === 'student' ? renderStudentForm() : renderTeacherForm()}
+            ${activeTab === 'student' ? renderStudentForm() : renderTeacherSection()}
           </div>
         </div>
       </div>
@@ -60,53 +61,83 @@ export function renderLoginView(container, onLoginSuccess) {
 
       <div class="form-group">
         <label>6자리 학급 초대 코드</label>
-        <input type="text" id="std-code" class="pixel-input" placeholder="예: 363636" maxlength="6" required value="363636">
+        <input type="text" id="std-code" class="pixel-input" placeholder="선생님이 알려주신 6자리 코드" maxlength="6" required value="363636">
       </div>
 
       <div class="form-group">
         <label>학생 실명</label>
-        <input type="text" id="std-name" class="pixel-input" placeholder="이름을 입력하세요" required>
+        <input type="text" id="std-name" class="pixel-input" placeholder="이름을 입력하세요 (예: 홍길동)" required>
       </div>
 
       <div id="std-error-msg" class="code-check-msg text-red text-center"></div>
 
-      <button type="submit" class="pixel-btn btn-primary" style="width: 100%; margin-top: 10px;">
+      <button type="submit" class="pixel-btn btn-gold" style="width: 100%; margin-top: 10px; font-size: 1.1rem;">
         🚀 탐험대 입장하기
       </button>
     </form>
   `;
 
-  const renderTeacherForm = () => `
+  const renderTeacherSection = () => `
+    <div>
+      <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+        <button id="btn-tch-mode-login" class="pixel-btn ${teacherMode === 'login' ? 'btn-primary' : 'btn-outline'}" style="flex: 1; font-size: 0.9rem;">
+          🔑 기존 클래스로 로그인
+        </button>
+        <button id="btn-tch-mode-create" class="pixel-btn ${teacherMode === 'create' ? 'btn-success' : 'btn-outline'}" style="flex: 1; font-size: 0.9rem;">
+          ➕ 원하는 6자리 코드로 새 클래스 개설
+        </button>
+      </div>
+
+      ${teacherMode === 'login' ? renderTeacherLoginForm() : renderTeacherCreateForm()}
+    </div>
+  `;
+
+  const renderTeacherLoginForm = () => `
     <form id="form-teacher-login">
       <div class="form-group">
-        <label>선생님 6자리 학급 코드</label>
-        <input type="text" id="tch-code" class="pixel-input" placeholder="숫자 6자리 입력 (예: 363636)" maxlength="6" required value="363636">
-        <div id="code-realtime-msg" class="code-check-msg"></div>
+        <label>선생님의 6자리 학급 코드</label>
+        <input type="text" id="tch-login-code" class="pixel-input" placeholder="개설한 6자리 숫자 입력" maxlength="6" required value="363636">
       </div>
 
-      <div id="teacher-extra-fields" class="hidden">
+      <div id="tch-login-error" class="code-check-msg text-red text-center"></div>
+
+      <button type="submit" class="pixel-btn btn-primary" style="width: 100%; margin-top: 10px;">
+        🔑 6자리 학급 코드로 로그인
+      </button>
+    </form>
+  `;
+
+  const renderTeacherCreateForm = () => `
+    <form id="form-teacher-create">
+      <div class="form-group">
+        <label>원하는 6자리 학급 코드 입력 (선생님 지정)</label>
+        <input type="text" id="tch-create-code" class="pixel-input" placeholder="원하는 숫자 6자리 입력 (예: 123456)" maxlength="6" required>
+        <div id="create-code-msg" class="code-check-msg"></div>
+      </div>
+
+      <div class="form-group">
+        <label>선생님 성함</label>
+        <input type="text" id="tch-name" class="pixel-input" placeholder="예: 김선생님" required>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
         <div class="form-group">
-          <label>선생님 성함</label>
-          <input type="text" id="tch-name" class="pixel-input" placeholder="예: 김선생님">
+          <label>담당 학년</label>
+          <select id="tch-grade" class="pixel-input">
+            <option value="3" selected>3학년</option>
+            <option value="4">4학년</option>
+          </select>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div class="form-group">
-            <label>담당 학년</label>
-            <select id="tch-grade" class="pixel-input">
-              <option value="3" selected>3학년</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>담당 반</label>
-            <input type="number" id="tch-classnum" class="pixel-input" placeholder="예: 1" value="1">
-          </div>
+        <div class="form-group">
+          <label>담당 반</label>
+          <input type="number" id="tch-classnum" class="pixel-input" placeholder="예: 1" value="1" required>
         </div>
       </div>
 
-      <div id="tch-error-msg" class="code-check-msg text-red text-center"></div>
+      <div id="tch-create-error" class="code-check-msg text-red text-center"></div>
 
-      <button type="submit" id="btn-tch-submit" class="pixel-btn btn-success" style="width: 100%; margin-top: 10px;">
-        👩‍🏫 교사 대시보드 로그인 / 클래스 생성
+      <button type="submit" id="btn-submit-create" class="pixel-btn btn-success" style="width: 100%; margin-top: 10px;">
+        ✨ 새로운 6자리 학급 클래스 개설
       </button>
     </form>
   `;
@@ -125,7 +156,20 @@ export function renderLoginView(container, onLoginSuccess) {
       render();
     });
 
-    // Student Login submit
+    // Teacher sub-mode switching
+    container.querySelector('#btn-tch-mode-login')?.addEventListener('click', () => {
+      sound.playClick();
+      teacherMode = 'login';
+      render();
+    });
+
+    container.querySelector('#btn-tch-mode-create')?.addEventListener('click', () => {
+      sound.playClick();
+      teacherMode = 'create';
+      render();
+    });
+
+    // Student Login Submit
     const studentForm = container.querySelector('#form-student-login');
     if (studentForm) {
       studentForm.addEventListener('submit', (e) => {
@@ -149,76 +193,80 @@ export function renderLoginView(container, onLoginSuccess) {
       });
     }
 
-    // Teacher Code Real-time check
-    const tchCodeInput = container.querySelector('#tch-code');
-    const msgDiv = container.querySelector('#code-realtime-msg');
-    const extraFields = container.querySelector('#teacher-extra-fields');
-    let isNewCode = false;
-
-    if (tchCodeInput) {
-      const checkCode = () => {
-        const code = tchCodeInput.value.trim();
-        if (code.length === 6) {
-          const res = storage.checkClassCodeAvailable(code);
-          if (res.available) {
-            msgDiv.className = 'code-check-msg text-green';
-            msgDiv.textContent = res.msg;
-            extraFields.classList.remove('hidden');
-            isNewCode = true;
-          } else {
-            msgDiv.className = 'code-check-msg text-yellow';
-            msgDiv.textContent = 'ℹ️ 등록된 6자리 클래스 코드입니다. 바로 로그인 가능합니다.';
-            extraFields.classList.add('hidden');
-            isNewCode = false;
-          }
-        } else {
-          msgDiv.textContent = '';
-          extraFields.classList.add('hidden');
-          isNewCode = false;
-        }
-      };
-
-      tchCodeInput.addEventListener('input', checkCode);
-      checkCode(); // Initial run
-    }
-
-    // Teacher Login/Signup Submit
-    const teacherForm = container.querySelector('#form-teacher-login');
-    if (teacherForm) {
-      teacherForm.addEventListener('submit', (e) => {
+    // Teacher Login Submit
+    const teacherLoginForm = container.querySelector('#form-teacher-login');
+    if (teacherLoginForm) {
+      teacherLoginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         sound.playClick();
-        const code = tchCodeInput.value.trim();
-        if (code.length !== 6) {
-          sound.playWrong();
-          return;
-        }
-
-        let teacher = storage.loginTeacher(code);
-        if (!teacher && isNewCode) {
-          const name = container.querySelector('#tch-name').value.trim() || '선생님';
-          const grade = container.querySelector('#tch-grade').value || '3';
-          const classNum = container.querySelector('#tch-classnum').value || '1';
-          teacher = storage.registerTeacher({
-            uid: `teacher_${code}`,
-            name,
-            grade,
-            classNum,
-            className: `${grade}학년 ${classNum}반`,
-            classCode: code,
-            role: 'teacher'
-          });
-        }
-
+        const code = container.querySelector('#tch-login-code').value.trim();
+        const teacher = storage.loginTeacher(code);
         if (teacher) {
           storage.saveSession(teacher);
           sound.playCorrect();
           onLoginSuccess(teacher);
         } else {
           sound.playWrong();
-          const errDiv = container.querySelector('#tch-error-msg');
-          if (errDiv) errDiv.textContent = '선생님 로그인에 실패했습니다. 코드를 확인해 주세요.';
+          const errDiv = container.querySelector('#tch-login-error');
+          if (errDiv) errDiv.textContent = '❌ 해당 6자리 클래스 코드가 존재하지 않습니다. 먼저 클래스를 개설해 주세요.';
         }
+      });
+    }
+
+    // Teacher Create Submit & Realtime Availability Check
+    const createCodeInput = container.querySelector('#tch-create-code');
+    const msgDiv = container.querySelector('#create-code-msg');
+
+    if (createCodeInput) {
+      createCodeInput.addEventListener('input', () => {
+        const code = createCodeInput.value.trim();
+        if (code.length === 6) {
+          const res = storage.checkClassCodeAvailable(code);
+          if (res.available) {
+            msgDiv.className = 'code-check-msg text-green';
+            msgDiv.textContent = res.msg;
+          } else {
+            msgDiv.className = 'code-check-msg text-red';
+            msgDiv.textContent = res.msg;
+          }
+        } else {
+          msgDiv.textContent = '';
+        }
+      });
+    }
+
+    const teacherCreateForm = container.querySelector('#form-teacher-create');
+    if (teacherCreateForm) {
+      teacherCreateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        sound.playClick();
+
+        const code = createCodeInput.value.trim();
+        const res = storage.checkClassCodeAvailable(code);
+        if (!res.available) {
+          sound.playWrong();
+          const errDiv = container.querySelector('#tch-create-error');
+          if (errDiv) errDiv.textContent = res.msg;
+          return;
+        }
+
+        const name = container.querySelector('#tch-name').value.trim();
+        const grade = container.querySelector('#tch-grade').value;
+        const classNum = container.querySelector('#tch-classnum').value;
+
+        const newTeacher = storage.registerTeacher({
+          uid: `teacher_${code}`,
+          name,
+          grade,
+          classNum,
+          className: `${grade}학년 ${classNum}반 (${name})`,
+          classCode: code,
+          role: 'teacher'
+        });
+
+        storage.saveSession(newTeacher);
+        sound.playCorrect();
+        onLoginSuccess(newTeacher);
       });
     }
   };

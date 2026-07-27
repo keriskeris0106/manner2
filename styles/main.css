@@ -1,0 +1,251 @@
+/* ==========================================================================
+   [존댓말 차원 탐험대] Main Design System & Retro Pixel Styles
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Cyber Neon & Retro Pixel 8-bit */
+  --bg-dark: #0f0b1e;
+  --bg-card: #1d163a;
+  --bg-card-hover: #2a2052;
+  --primary: #9d4edd;
+  --primary-light: #c77dff;
+  --primary-glow: rgba(157, 78, 221, 0.4);
+  --accent-yellow: #ffb703;
+  --accent-green: #06d6a0;
+  --accent-cyan: #4cc9f0;
+  --accent-red: #ef476f;
+  --text-main: #f8f9fa;
+  --text-muted: #b8c0e0;
+  --text-dark: #121212;
+  
+  /* Borders & Shadows */
+  --pixel-border: 3px solid #000;
+  --pixel-border-color: #5a3e85;
+  --pixel-box-shadow: 4px 4px 0px #000;
+  --glow-shadow: 0 0 15px var(--primary-glow);
+  
+  /* Fonts */
+  --font-pixel: 'DungGeunMo', 'Galmuri11', 'Press Start 2P', monospace;
+  --font-body: 'Noto Sans KR', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body.pixel-theme {
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 50% 20%, rgba(157, 78, 221, 0.15) 0%, transparent 60%),
+    linear-gradient(to bottom, #0f0b1e, #1a103c);
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* CRT Screen Effect overlay */
+.crt-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Top Navigation Bar (GNB) - Strictly 1 Line Title */
+.gnb-header {
+  height: 60px;
+  background: rgba(29, 22, 58, 0.95);
+  border-bottom: 3px solid #4a347b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.gnb-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap; /* Prevents line breaks */
+  flex-shrink: 0;
+}
+
+.game-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-yellow);
+  text-shadow: 2px 2px 0px #000, 0 0 10px rgba(255, 183, 3, 0.5);
+  white-space: nowrap;
+  letter-spacing: -0.5px;
+}
+
+.version-tag {
+  font-size: 0.75rem;
+  background: var(--primary);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #000;
+}
+
+.gnb-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.user-badge {
+  background: rgba(76, 201, 240, 0.15);
+  border: 2px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  text-shadow: 1px 1px 0px #000;
+}
+
+.gnb-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Main Container */
+.main-container {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pixel Buttons */
+.pixel-btn {
+  font-family: var(--font-pixel);
+  cursor: pointer;
+  border: var(--pixel-border);
+  box-shadow: var(--pixel-box-shadow);
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: transform 0.05s ease, background-color 0.2s ease, box-shadow 0.05s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: #3c096c;
+}
+.btn-primary:hover {
+  background: var(--primary-light);
+}
+
+.btn-success {
+  background: var(--accent-green);
+  color: #05382b;
+  border-color: #028062;
+}
+.btn-success:hover {
+  background: #2ec4b6;
+}
+
+.btn-warning {
+  background: var(--accent-yellow);
+  color: #3a2200;
+  border-color: #b38000;
+}
+
+.btn-danger {
+  background: var(--accent-red);
+  color: #fff;
+  border-color: #a81c3f;
+}
+
+.btn-outline {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border: 2px solid var(--text-muted);
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn-xs {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  box-shadow: 2px 2px 0px #000;
+}
+.btn-xs:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+/* Pixel Cards */
+.pixel-card {
+  background: var(--bg-card);
+  border: 3px solid var(--pixel-border-color);
+  box-shadow: var(--pixel-box-shadow);
+  border-radius: 8px;
+  padding: 24px;
+  position: relative;
+}
+
+.pixel-card-header {
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.15);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pixel-card-title {
+  color: var(--accent-yellow);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Utility Helpers */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.text-green { color: var(--accent-green) !important; }
+.text-red { color: var(--accent-red) !important; }
+.text-yellow { color: var(--accent-yellow) !important; }
+.text-cyan { color: var(--accent-cyan) !important; }
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mb-2 { margin-bottom: 16px; }
